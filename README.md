@@ -1,3 +1,5 @@
+[![publish](https://github.com/mikepattyn/Serilog.Sinks.Universal/actions/workflows/release.yml/badge.svg)](https://github.com/mikepattyn/Serilog.Sinks.Universal/actions/workflows/release.yml)
+
 Example below
 ```csharp
 using Microsoft.AspNetCore.Mvc;
