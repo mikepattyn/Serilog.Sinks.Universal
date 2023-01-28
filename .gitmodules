@@ -1,0 +1,3 @@
+[submodule "Serilog-Sinks-Discord"]
+	path = Serilog-Sinks-Discord
+	url = git@github.com:mikepattyn/Serilog-Sinks-Discord.git
