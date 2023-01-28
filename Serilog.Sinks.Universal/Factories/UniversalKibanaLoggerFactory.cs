@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Serilog.Sinks.Http;
 using Serilog;
+using System.Collections.Concurrent;
 
 namespace Universal.Serilog.Sinks.Factories;
 public record UniversalKibanaLoggerFactory(IOptions<UniversalLoggerConfiguration> Configuration) : UniversalLoggerFactory(Configuration)
@@ -9,7 +10,7 @@ public record UniversalKibanaLoggerFactory(IOptions<UniversalLoggerConfiguration
     public override ILogger Create(string channelName, Dictionary<string, string> properties)
     {
         if (Loggers.ContainsKey(channelName))
-            return Loggers[channelName];
+            Loggers = new ConcurrentDictionary<string, ILogger>();
 
         var loggerConfiguration = new LoggerConfiguration().Enrich.WithProperty("tag", Configuration.Value.KibanaTag).WriteTo.HttpSink(Configuration.Value.KibanaUrl, Configuration.Value.KibanaKey);
         if (Configuration?.Value != null && !Configuration.Value.IsProduction)

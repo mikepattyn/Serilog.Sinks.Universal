@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Options;
 using Serilog;
-using Universal.Serilog.Sinks.Dependencies.Serilog.Sinks.Discord;
+using Serilog.Events;
+using Serilog.Sinks.Discord;
+using System.Collections.Concurrent;
 
 namespace Universal.Serilog.Sinks.Factories;
 public record UniversalDiscordLoggerFactory(IOptions<UniversalLoggerConfiguration> Configuration) : UniversalLoggerFactory(Configuration)
@@ -10,9 +12,10 @@ public record UniversalDiscordLoggerFactory(IOptions<UniversalLoggerConfiguratio
     public override ILogger Create(string channelName, Dictionary<string, string> properties)
     {
         if (Loggers.ContainsKey(channelName))
-            return Loggers[channelName];
+            Loggers = new ConcurrentDictionary<string, ILogger>();
 
-        var loggerConfiguration = new LoggerConfiguration().WriteTo.Discord(Configuration.Value.DiscordWebhookId, Configuration.Value.DiscordWebhookToken, properties);
+        var loggerConfiguration = new LoggerConfiguration().WriteTo.Discord(Configuration.Value.DiscordWebhookId, Configuration.Value.DiscordWebhookToken, null, LogEventLevel.Verbose, properties);
+
         Loggers.TryAdd(channelName, loggerConfiguration.CreateLogger());
 
         return base.Create(channelName, properties);

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -15,31 +15,37 @@
     <RepositoryUrl>https://github.com/mikepattyn/Serilog.Sinks.Universal</RepositoryUrl>
     <PackageProjectUrl>https://github.com/mikepattyn/Serilog.Sinks.Universal</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
+	<VersionPrefix>1.0.3</VersionPrefix>
+	<Authors>mikepattyn</Authors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Serilog.Sinks.Http" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Http.Logit" Version="1.0.1" />
+    <PackageReference Include="Serilog.Sinks.Slack" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Universal.Serilog.Sinks.Dependencies\ClassLibrary1\Serilog.Sinks.Universal.Dependencies.csproj" />
+    <ProjectReference Include="..\Serilog-Sinks-Discord\Serilog.Sinks.Discord.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="78050538.png">
+    <Resource Include="78050538.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
-    </None>
-    <None Update="LICENSE">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
-
 </Project>

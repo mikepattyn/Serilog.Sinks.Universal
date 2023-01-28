@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Sinks.Slack;
@@ -11,11 +12,14 @@ public record UniversalSlackLoggerFactory(IOptions<UniversalLoggerConfiguration>
     public override ILogger Create(string channelName, Dictionary<string, string> properties)
     {
         if (Loggers.ContainsKey(channelName))
-            return Loggers[channelName];
+            Loggers = new ConcurrentDictionary<string, ILogger>();
 
         var options = BuildOptions(Configuration.Value.SlackWebhookUrl, channelName);
         var loggerConfiguration = new LoggerConfiguration().WriteTo.Slack(options);
-
+        foreach (var property in properties)
+        {
+            loggerConfiguration.Enrich.WithProperty(property.Key, property.Value);
+        }
         Loggers.TryAdd(channelName, loggerConfiguration.CreateLogger());
 
         return base.Create(channelName, properties);
@@ -34,9 +38,4 @@ public record UniversalSlackLoggerFactory(IOptions<UniversalLoggerConfiguration>
             CustomChannel = channel
         };
     }
-}
-
-public interface ILoggerFactory
-{
-    ILogger Configure();
 }
