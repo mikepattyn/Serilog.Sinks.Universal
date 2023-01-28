@@ -28,9 +28,12 @@ jobs:
       with:
         fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
         submodules: recursive
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
-    - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+
+    - run: dotnet pack Serilog.Sinks.Universal.csproj --configuration Release --output ${{ env.NuGetDirectory }}
+
     - uses: actions/upload-artifact@v3
       with:
         name: nuget
