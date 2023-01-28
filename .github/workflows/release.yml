@@ -50,4 +50,4 @@ jobs:
         retention-days: 7
         path: ${{ env.NuGetDirectory }}/*.nupkg
 
-    - run: dotnet nuget push Serilog.Sinks.Universal.1.0.3 --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+    - run: dotnet nuget push Serilog.Sinks.Universal.1.0.3.nupkg --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
