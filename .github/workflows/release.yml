@@ -31,8 +31,14 @@ jobs:
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
 
-    - run: dotnet pack Serilog.Sinks.Universal/Serilog.Sinks.Universal.csproj --configuration Release --output ${{ env.NuGetDirectory }}
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Package
+      run: dotnet pack Serilog.Sinks.Universal/Serilog.Sinks.Universal.csproj --configuration Release --output ${{ env.NuGetDirectory }}
 
     - uses: actions/upload-artifact@v3
       with:
