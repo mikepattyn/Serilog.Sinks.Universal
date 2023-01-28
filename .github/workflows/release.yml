@@ -76,5 +76,5 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Push Package to Nuget
-      run: dotnet nuget push --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" Serilog.Sinks.Universal.${{ steps.bump-semver.outputs.new_version }}.nupkg
+      run: dotnet nuget push --api-key ${{secrets.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" Serilog.Sinks.Universal.1.0.3.nupkg
 
