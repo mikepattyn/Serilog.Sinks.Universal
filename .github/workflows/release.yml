@@ -20,13 +20,14 @@ jobs:
       id: get-merged-pull-request
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-
+        
     - uses: actions-ecosystem/action-release-label@v1
       id: release-label
       if: ${{ steps.get-merged-pull-request.outputs.title != null }}
       with:
         labels: ${{ steps.get-merged-pull-request.outputs.labels }}
-
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions-ecosystem/action-get-latest-tag@v1
       id: get-latest-tag
       if: ${{ steps.release-label.outputs.level != null }}
@@ -69,8 +70,7 @@ jobs:
         number: ${{ steps.get-merged-pull-request.outputs.number }}
         body: |
         The new version [${{ steps.bump-semver.outputs.new_version }}](https://github.com/${{ github.repository }}/releases/tag/${{ steps.bump-semver.outputs.new_version }}) has been released :tada:
-    - run: |
-        echo ${{steps.b}}
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
