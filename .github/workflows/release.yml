@@ -31,7 +31,7 @@ jobs:
       id: get-latest-tag
       if: ${{ steps.release-label.outputs.level != null }}
       with:
-        semver_only: true
+        semver_only: false
 
     - uses: actions-ecosystem/action-bump-semver@v1
       id: bump-semver
@@ -69,7 +69,8 @@ jobs:
         number: ${{ steps.get-merged-pull-request.outputs.number }}
         body: |
         The new version [${{ steps.bump-semver.outputs.new_version }}](https://github.com/${{ github.repository }}/releases/tag/${{ steps.bump-semver.outputs.new_version }}) has been released :tada:
-
+    - run: |
+        echo ${{steps.b}}
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
