@@ -21,39 +21,38 @@ defaults:
     shell: pwsh
 
 jobs:
-  nugets:
-    strategy: 
-      matrix:
-        dotnet-version: [6.0.x, 7.0.x]
-
-    runs-on: ubuntu-latest
+  Publish_NuGet:
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+
+    - name: 'Checkout'
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0 # Get all history to allow automatic versioning using MinVer
         submodules: recursive
 
-    - name: Setup .NET
+    - name: Setup net6.0
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: ${{ matrix.dotnet-version }}
+        dotnet-version: 6.0.x
 
-    - name: Resotre
+    - name: Restore depedencies
       run: dotnet restore
 
-    - name: Build
+    - name: Build Project
       run: dotnet build --configuration Release
 
-    - name: Package
+    - name: Package NuGet
       run: dotnet pack Serilog.Sinks.Universal/Serilog.Sinks.Universal.csproj --configuration Release --output ${{ env.NuGetDirectory }}
 
-    - uses: actions/upload-artifact@v3
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
       with:
         name: nuget
         if-no-files-found: error
         retention-days: 7
         path: ${{ env.NuGetDirectory }}/*.nupkg
 
-    - name: Publish 
+    - name: Publish NuGet
       working-directory: ${{ env.NuGetDirectory }}
       run: dotnet nuget push *.nupkg --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json

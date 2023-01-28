@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/mikepattyn/Serilog.Sinks.Universal</RepositoryUrl>
     <PackageProjectUrl>https://github.com/mikepattyn/Serilog.Sinks.Universal</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-	<VersionPrefix>1.0.4</VersionPrefix>
+	<VersionPrefix>1.0.5</VersionPrefix>
 	<Authors>mikepattyn</Authors>
   </PropertyGroup>
 
